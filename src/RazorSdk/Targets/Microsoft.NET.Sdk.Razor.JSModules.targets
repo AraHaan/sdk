@@ -31,7 +31,7 @@ Copyright (c) .NET Foundation. All rights reserved.
   <UsingTask TaskName="Microsoft.AspNetCore.Razor.Tasks.GenerateJsModuleManifest" AssemblyFile="$(RazorSdkBuildTasksAssembly)" />
 
   <PropertyGroup>
-
+    <GenerateJSModuleManifest Condition="$(GenerateJSModuleManifest) == ''">true</GenerateJSModuleManifest>
     <ResolveStaticWebAssetsInputsDependsOn>
       $(ResolveStaticWebAssetsInputsDependsOn);
       _AddJsModulesToStaticWebAssets;
@@ -230,21 +230,21 @@ Copyright (c) .NET Foundation. All rights reserved.
     </ItemGroup>
 
     <PropertyGroup>
-      <_JSModuleManifestPath>$(IntermediateOutputFolder)jsmodules\jsmodules.build.manifest.json</_JSModuleManifestPath>
+      <_JSModuleManifestPath>$(IntermediateOutputPath)jsmodules\jsmodules.build.manifest.json</_JSModuleManifestPath>
     </PropertyGroup>
 
     <ItemGroup>
-      <_JsModuleBuildManifestCandidate Include="$(IntermediateOutputFolder)jsmodules\jsmodules.build.manifest.json">
+      <_JsModuleBuildManifestCandidate Include="$(IntermediateOutputPath)jsmodules\jsmodules.build.manifest.json">
         <RelativePath>$(PackageId).modules.json</RelativePath>
       </_JsModuleBuildManifestCandidate>
     </ItemGroup>
 
     <DefineStaticWebAssets Condition="@(_ExistingBuildJSModules) != ''"
-      Candidates="@(_JsModuleBuildManifestCandidate)"
+      CandidateAssets="@(_JsModuleBuildManifestCandidate)"
       SourceId="$(PackageId)"
       SourceType="Computed"
       BasePath="$(StaticWebAssetBasePath)"
-      ContentRoot="$(StaticWebAssetBasePath)"
+      ContentRoot="$(IntermediateOutputPath)jsmodules\"
       AssetKind="Build"
       AssetMode="CurrentProject"
       AssetRole="Primary"
@@ -281,21 +281,21 @@ Copyright (c) .NET Foundation. All rights reserved.
     </ItemGroup>
 
     <PropertyGroup>
-      <_JSModuleManifestPath>$(IntermediateOutputFolder)jsmodules\jsmodules.publish.manifest.json</_JSModuleManifestPath>
+      <_JSModuleManifestPath>$(IntermediateOutputPath)jsmodules\jsmodules.publish.manifest.json</_JSModuleManifestPath>
     </PropertyGroup>
 
     <ItemGroup>
-      <_JsModulePublishManifestCandidate Include="$(IntermediateOutputFolder)jsmodules\jsmodules.publish.manifest.json">
+      <_JsModulePublishManifestCandidate Include="$(IntermediateOutputPath)jsmodules\jsmodules.publish.manifest.json">
         <RelativePath>$(PackageId).modules.json</RelativePath>
       </_JsModulePublishManifestCandidate>
     </ItemGroup>
 
     <DefineStaticWebAssets Condition="@(_ExistingPublishJSModules) != ''"
-      Candidates="@(_JsModulePublishManifestCandidate)"
+      CandidateAssets="@(_JsModulePublishManifestCandidate)"
       SourceId="$(PackageId)"
       SourceType="Computed"
       BasePath="$(StaticWebAssetBasePath)"
-      ContentRoot="$(StaticWebAssetBasePath)"
+      ContentRoot="$(IntermediateOutputPath)jsmodules\"
       AssetKind="Publish"
       AssetMode="CurrentProject"
       AssetRole="Primary"
