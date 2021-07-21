@@ -39,6 +39,10 @@ Copyright (c) .NET Foundation. All rights reserved.
     <StaticWebAssetsAdditionalPublishProperties>$(StaticWebAssetsAdditionalPublishProperties);BuildProjectReferences=false;ResolveAssemblyReferencesFindRelatedSatellites=true;_PublishingBlazorWasmProject=true</StaticWebAssetsAdditionalPublishProperties>
     <StaticWebAssetsAdditionalPublishPropertiesToRemove>$(StaticWebAssetsAdditionalPublishPropertiesToRemove);NoBuild;RuntimeIdentifier</StaticWebAssetsAdditionalPublishPropertiesToRemove>
 
+    <!-- JS Modules -->
+    <!-- We disable the manifest generation because we are going to inline the modules in the blazor.boot.json manifest -->
+    <GenerateJSModuleManifest>false</GenerateJSModuleManifest>
+
   </PropertyGroup>
 
   <Import Sdk="Microsoft.NET.Sdk.Razor" Project="Sdk.props" />
