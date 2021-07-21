@@ -86,6 +86,11 @@ Copyright (c) .NET Foundation. All rights reserved.
       _AddPublishBlazorBootJsonToStaticWebAssets;
     </ResolvePublishStaticWebAssetsDependsOn>
 
+    <GenerateStaticWebAssetsPublishManifestDependsOn>
+      $(GenerateStaticWebAssetsPublishManifestDependsOn);
+      GeneratePublishBlazorBootJson;
+    </GenerateStaticWebAssetsPublishManifestDependsOn>
+
   </PropertyGroup>
 
   <Import Project="Microsoft.NET.Sdk.BlazorWebAssembly.ServiceWorkerAssetsManifest.targets" Condition="'$(ServiceWorkerAssetsManifest)' != ''" />
@@ -473,12 +478,12 @@ Copyright (c) .NET Foundation. All rights reserved.
     </DefineStaticWebAssets>
   </Target>
 
-  <Target Name="GeneratePublishBlazorBootJson" BeforeTargets="ComputeFilesToPublish" DependsOnTargets="ResolvePublishStaticWebAssets">
+  <Target Name="GeneratePublishBlazorBootJson">
 
     <ItemGroup>
       <_BlazorPublishAsset 
         Include="@(StaticWebAsset)" 
-        Condition="'%(AssetKind)' != 'Build' and ('%(AssetTraitName)' == 'BlazorWebAssemblyResource' or '%(AssetTraitName)' == 'Culture') and '%(RelativePath)' != '_framework/blazor.webassembly.js'" />
+        Condition="'%(AssetKind)' != 'Build' and '%(AssetTraitValue)' != 'manifest' and ('%(AssetTraitName)' == 'BlazorWebAssemblyResource' or '%(AssetTraitName)' == 'Culture') and '%(AssetTraitValue)' != 'boot'" />
 
       <_BlazorPublishConfigFile 
         Include="@(StaticWebAsset)" 
@@ -533,7 +538,7 @@ Copyright (c) .NET Foundation. All rights reserved.
     </ItemGroup>
   </Target>
 
-  <Target Name="_BlazorCompressPublishFiles" AfterTargets="_GeneratePublishBlazorBootJson" Condition="'$(BlazorEnableCompression)' != 'false'">
+  <Target Name="_BlazorCompressPublishFiles" AfterTargets="GeneratePublishBlazorBootJson" Condition="'$(BlazorEnableCompression)' != 'false'">
     <PropertyGroup>
       <_CompressedFileOutputPath>$(IntermediateOutputPath)compress\</_CompressedFileOutputPath>
       <_BlazorWebAssemblyBrotliIncremental>true</_BlazorWebAssemblyBrotliIncremental>
