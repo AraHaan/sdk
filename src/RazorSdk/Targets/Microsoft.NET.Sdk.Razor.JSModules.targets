@@ -207,12 +207,12 @@ Copyright (c) .NET Foundation. All rights reserved.
 
   <Target Name="_AddJsModulesToStaticWebAssets" DependsOnTargets="_ResolveJsModuleInputs">
     <ItemGroup>
-      <StaticWebAsset Include="@_ComponentPagesJSModule)" />
-      <StaticWebAsset Include="@_ComponentSharedJSModule)" />
-      <StaticWebAsset Include="@_ComponentComponentsJSModule)" />
-      <StaticWebAsset Include="@_MvcViewsJSModule)" />
-      <StaticWebAsset Include="@_MvcPagesJSModule)" />
-      <StaticWebAsset Include="@_MvcSharedJSModule)" />
+      <StaticWebAsset Include="@(_ComponentPagesJSModule)" />
+      <StaticWebAsset Include="@(_ComponentSharedJSModule)" />
+      <StaticWebAsset Include="@(_ComponentComponentsJSModule)" />
+      <StaticWebAsset Include="@(_MvcViewsJSModule)" />
+      <StaticWebAsset Include="@(_MvcPagesJSModule)" />
+      <StaticWebAsset Include="@(_MvcSharedJSModule)" />
 
       <!-- Update the discovered initializers -->
       <StaticWebAsset Remove="@(_JSModuleStaticWebAsset)" />
