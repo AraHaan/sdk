@@ -136,7 +136,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
 
             var extensions = parsedContent.resources.extensions;
             extensions.Should().ContainKey("custom-extension");
-            extensions["custom-extension"].Should().Contain("my-custom-extension.blz", "my-custom-extensionhash");
+            extensions["custom-extension"].Should().Contain("my-custom-extension.blz", "sha256-my-custom-extensionhash");
         }
 
         [Theory]
