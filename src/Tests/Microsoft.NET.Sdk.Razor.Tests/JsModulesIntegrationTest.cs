@@ -4,6 +4,9 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Xml.Linq;
+using FluentAssertions;
 using Microsoft.AspNetCore.Razor.Tasks;
 using Microsoft.NET.TestFramework.Assertions;
 using Microsoft.NET.TestFramework.Commands;
@@ -55,6 +58,51 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             var file = new FileInfo(Path.Combine(intermediateOutputPath, "jsmodules", "jsmodules.build.manifest.json"));
             file.Should().Exist();
             file.Should().Contain("ComponentApp.lib.module.js");
+        }
+
+        [Fact]
+        public void Build_DiscoversJsModulesBasedOnPatterns()
+        {
+            var testAsset = "RazorComponentApp";
+            ProjectDirectory = CreateAspNetSdkTestAsset(testAsset);
+
+            // Components
+            CreateFile("", ProjectDirectory.TestRoot, "Pages", "Component.razor.js");
+            CreateFile("", ProjectDirectory.TestRoot, "Pages", "Categories", "Category.razor.js");
+
+            CreateFile("", ProjectDirectory.TestRoot, "Shared", "SmartMenu.razor.js");
+            CreateFile("", ProjectDirectory.TestRoot, "Shared", "Auth", "Login.razor.js");
+
+            CreateFile("", ProjectDirectory.TestRoot, "Components", "Widget.razor.js");
+            CreateFile("", ProjectDirectory.TestRoot, "Components", "Banner", "Toast.razor.js");
+
+            // MVC | Razor pages
+            CreateFile("", ProjectDirectory.TestRoot, "Pages", "Index.cshtml.js");
+            CreateFile("", ProjectDirectory.TestRoot, "Pages", "Products", "Starred.cshtml.js");
+
+            CreateFile("", ProjectDirectory.TestRoot, "Shared", "Calendar.cshtml.js");
+            CreateFile("", ProjectDirectory.TestRoot, "Shared", "Auth", "Logout.cshtml.js");
+
+            CreateFile("", ProjectDirectory.TestRoot, "Views", "Home", "About.cshtml.js");
+            CreateFile("", ProjectDirectory.TestRoot, "Views", "Shared", "Status.cshtml.js");
+
+            var build = new BuildCommand(ProjectDirectory);
+            build.WithWorkingDirectory(ProjectDirectory.TestRoot);
+            build.Execute("/bl").Should().Pass();
+
+            var intermediateOutputPath = build.GetIntermediateDirectory(DefaultTfm, "Debug").ToString();
+            var outputPath = build.GetOutputDirectory(DefaultTfm, "Debug").ToString();
+
+            var finalPath = Path.Combine(outputPath, "ComponentApp.staticwebassets.json");
+            var buildManifest = StaticWebAssetsManifest.FromJsonBytes(File.ReadAllBytes(finalPath));
+            AssertManifest(
+                buildManifest,
+                LoadPublishManifest());
+
+            AssertBuildAssets(
+                StaticWebAssetsManifest.FromJsonBytes(File.ReadAllBytes(finalPath)),
+                outputPath,
+                intermediateOutputPath);
         }
 
         [Fact]
@@ -153,6 +201,151 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                     Assert.Equal(thumbprintLookup[file], thumbprint);
                 }
             }
+        }
+
+        [Fact]
+        public void BuildProjectWithReferences_IncorporatesInitializersFromClassLibraries()
+        {
+            var testAsset = "RazorAppWithPackageAndP2PReference";
+            ProjectDirectory = CreateAspNetSdkTestAsset(testAsset);
+
+            var restore = new RestoreCommand(Log, Path.Combine(ProjectDirectory.TestRoot, "AppWithPackageAndP2PReference"));
+            restore.Execute().Should().Pass();
+
+            CreateFile("console.log('Hello world AnotherClassLib')", "AnotherClassLib", "wwwroot", "AnotherClassLib.lib.module.js");
+            CreateFile("console.log('Hello world ClassLibrary')", "ClassLibrary", "wwwroot", "ClassLibrary.lib.module.js");
+
+            var build = new BuildCommand(Log, Path.Combine(ProjectDirectory.TestRoot, "AppWithPackageAndP2PReference"));
+            build.WithWorkingDirectory(ProjectDirectory.Path);
+            build.Execute("/bl").Should().Pass();
+
+            var intermediateOutputPath = build.GetIntermediateDirectory(DefaultTfm, "Debug").ToString();
+            var outputPath = build.GetOutputDirectory(DefaultTfm, "Debug").ToString();
+
+            var finalPath = Path.Combine(outputPath, "AppWithPackageAndP2PReference.staticwebassets.json");
+            AssertManifest(
+                StaticWebAssetsManifest.FromJsonBytes(File.ReadAllBytes(finalPath)),
+                LoadPublishManifest());
+
+            AssertBuildAssets(
+                StaticWebAssetsManifest.FromJsonBytes(File.ReadAllBytes(finalPath)),
+                outputPath,
+                intermediateOutputPath);
+
+            var file = new FileInfo(Path.Combine(intermediateOutputPath, "jsmodules", "jsmodules.build.manifest.json"));
+            file.Should().Exist();
+            file.Should().Contain("_content/AnotherClassLib/AnotherClassLib.lib.module.js");
+            file.Should().Contain("_content/ClassLibrary/ClassLibrary.lib.module.js");
+        }
+
+        [Fact]
+        public void PublishProjectWithReferences_IncorporatesInitializersFromClassLibrariesAndPublishesAssetsToTheRightLocation()
+        {
+            var testAsset = "RazorAppWithPackageAndP2PReference";
+            ProjectDirectory = CreateAspNetSdkTestAsset(testAsset);
+
+            var restore = new RestoreCommand(Log, Path.Combine(ProjectDirectory.TestRoot, "AppWithPackageAndP2PReference"));
+            restore.Execute().Should().Pass();
+
+            CreateFile("console.log('Hello world AnotherClassLib')", "AnotherClassLib", "wwwroot", "AnotherClassLib.lib.module.js");
+
+            // Notice that it does not follow the pattern $(PackageId).lib.module.js
+            CreateFile("console.log('Hello world ClassLibrary')", "ClassLibrary", "wwwroot", "AnotherClassLib.lib.module.js");
+
+            var publish = new PublishCommand(Log, Path.Combine(ProjectDirectory.TestRoot, "AppWithPackageAndP2PReference"));
+            publish.WithWorkingDirectory(ProjectDirectory.Path);
+            publish.Execute("/bl").Should().Pass();
+
+            var intermediateOutputPath = publish.GetIntermediateDirectory(DefaultTfm, "Debug").ToString();
+            var outputPath = publish.GetOutputDirectory(DefaultTfm, "Debug").ToString();
+
+            var path = Path.Combine(intermediateOutputPath, "StaticWebAssets.build.json");
+            AssertManifest(
+                StaticWebAssetsManifest.FromJsonBytes(File.ReadAllBytes(path)),
+                LoadBuildManifest());
+
+            var finalPath = Path.Combine(intermediateOutputPath, "StaticWebAssets.publish.json");
+            AssertManifest(
+                StaticWebAssetsManifest.FromJsonBytes(File.ReadAllBytes(finalPath)),
+                LoadPublishManifest());
+
+            AssertBuildAssets(
+                StaticWebAssetsManifest.FromJsonBytes(File.ReadAllBytes(finalPath)),
+                outputPath,
+                intermediateOutputPath);
+
+            var file = new FileInfo(Path.Combine(outputPath, "wwwroot", "AppWithPackageAndP2PReference.modules.json"));
+            file.Should().Exist();
+            file.Should().Contain("_content/AnotherClassLib/AnotherClassLib.lib.module.js");
+            file.Should().NotContain("_content/ClassLibrary/AnotherClassLib.lib.module.js");
+        }
+
+        [Fact]
+        public void PublishProjectWithReferences_DifferentBuildAndPublish_LibraryInitializers()
+        {
+            var testAsset = "RazorAppWithPackageAndP2PReference";
+            ProjectDirectory = CreateAspNetSdkTestAsset(testAsset);
+
+            var restore = new RestoreCommand(Log, Path.Combine(ProjectDirectory.TestRoot, "AppWithPackageAndP2PReference"));
+            restore.Execute().Should().Pass();
+
+            CreateFile("console.log('Hello world AnotherClassLib publish')", "AnotherClassLib", "wwwroot", "AnotherClassLib.lib.module.js");
+            CreateFile("console.log('Hello world AnotherClassLib')", "AnotherClassLib", "wwwroot", "AnotherClassLib.lib.module.build.js");
+            ProjectDirectory.WithProjectChanges((project, document) =>
+            {
+                if (project.EndsWith("AnotherClassLib.csproj"))
+                {
+                    document.Root.Add(new XElement("ItemGroup",
+                        new XElement("Content",
+                            new XAttribute("Update", "wwwroot\\AnotherClassLib.lib.module.build.js"),
+                            new XAttribute("CopyToPublishDirectory", "Never"),
+                            new XAttribute("TargetPath", "wwwroot\\AnotherClassLib.lib.module.js"))));
+                }
+            });
+            var publish = new PublishCommand(Log, Path.Combine(ProjectDirectory.TestRoot, "AppWithPackageAndP2PReference"));
+            publish.WithWorkingDirectory(ProjectDirectory.Path);
+            publish.Execute("/bl").Should().Pass();
+
+            var intermediateOutputPath = publish.GetIntermediateDirectory(DefaultTfm, "Debug").ToString();
+            var outputPath = publish.GetOutputDirectory(DefaultTfm, "Debug").ToString();
+
+            var path = Path.Combine(intermediateOutputPath, "StaticWebAssets.build.json"); ;
+            var buildManifest = StaticWebAssetsManifest.FromJsonBytes(File.ReadAllBytes(path));
+
+            var initializers = buildManifest.Assets.Where(a => a.RelativePath == "AnotherClassLib.lib.module.js");
+            initializers.Should().HaveCount(2);
+            initializers.Should().Contain(a => a.IsBuildOnly());
+            initializers.Should().Contain(a => a.IsPublishOnly());
+
+            AssertManifest(
+                buildManifest,
+                LoadBuildManifest());
+
+            var finalPath = Path.Combine(intermediateOutputPath, "StaticWebAssets.publish.json");
+            AssertManifest(
+                StaticWebAssetsManifest.FromJsonBytes(File.ReadAllBytes(finalPath)),
+                LoadPublishManifest());
+
+            AssertBuildAssets(
+                StaticWebAssetsManifest.FromJsonBytes(File.ReadAllBytes(finalPath)),
+                outputPath,
+                intermediateOutputPath);
+
+            var modulesManifest = new FileInfo(Path.Combine(outputPath, "wwwroot", "AppWithPackageAndP2PReference.modules.json"));
+            modulesManifest.Should().Exist();
+            modulesManifest.Should().Contain("_content/AnotherClassLib/AnotherClassLib.lib.module.js");
+            modulesManifest.Should().NotContain("_content/ClassLibrary/AnotherClassLib.lib.module.js");
+
+            var moduleFile = new FileInfo(Path.Combine(outputPath, "wwwroot", "_content", "AnotherClassLib", "AnotherClassLib.lib.module.js"));
+            moduleFile.Should().Exist();
+            moduleFile.Should().Contain("console.log('Hello world AnotherClassLib publish')");
+        }
+
+
+        private void CreateFile(string content, params string[] path)
+        {
+            Directory.CreateDirectory(Path.Combine(path[..^1].Prepend(ProjectDirectory.TestRoot).ToArray()));
+            File.WriteAllText(Path.Combine(path.Prepend(ProjectDirectory.TestRoot).ToArray()), content);
         }
     }
 }

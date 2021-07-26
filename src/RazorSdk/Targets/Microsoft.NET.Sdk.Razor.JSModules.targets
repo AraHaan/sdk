@@ -96,7 +96,7 @@ Copyright (c) .NET Foundation. All rights reserved.
     <!-- Shared/**/*.razor.js -->
     <DiscoverStaticWebAssets Candidates="@(None);@(Content)"
       SourceId="$(PackageId)"
-      Pattern="Shared/**/*.cshtml.js"
+      Pattern="Shared/**/*.razor.js"
       ContentRoot="$(MSBuildProjectDirectory)\Shared\"
       BasePath="$(StaticWebAssetBasePath)"
     >
