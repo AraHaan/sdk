@@ -1,12 +1,24 @@
 {
   "Version": 1,
-  "Hash": "9Q2F4wXzJSw9Amz1qOkUGG11b84neMUQ6Dg\u002BfEeULC8=",
+  "Hash": "dIvkKNH2XOslnI7c2sTgPtdTc1nhlL39RAMWV5pG5bw=",
   "Source": "blazorwasm-minimal",
   "BasePath": "/",
   "Mode": "Root",
   "ManifestType": "Build",
   "RelatedManifests": [],
   "DiscoveryPatterns": [
+    {
+      "Name": "blazorwasm-minimal\\BlazorPages",
+      "ContentRoot": "${ProjectRoot}\\Pages\\",
+      "BasePath": "/",
+      "Pattern": "**.razor.js"
+    },
+    {
+      "Name": "blazorwasm-minimal\\MvcPages",
+      "ContentRoot": "${ProjectRoot}\\Pages\\",
+      "BasePath": "/",
+      "Pattern": "**.cshtml.js"
+    },
     {
       "Name": "blazorwasm-minimal\\wwwroot",
       "ContentRoot": "${ProjectRoot}\\wwwroot\\",

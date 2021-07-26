@@ -1,12 +1,18 @@
 {
   "Version": 1,
-  "Hash": "UK\u002BWRELx6L9seWY/rVc0seoouNjN3YTakqEvzB4hkuQ=",
+  "Hash": "vEIT1Y9BeKiRhhYaWgVR4QyCocd8S9gJyFgFcm\u002BwlwM=",
   "Source": "ComponentApp",
   "BasePath": "_content/ComponentApp",
   "Mode": "Default",
   "ManifestType": "Build",
   "RelatedManifests": [],
   "DiscoveryPatterns": [
+    {
+      "Name": "ComponentApp\\BlazorComponents",
+      "ContentRoot": "${ProjectRoot}\\Components\\",
+      "BasePath": "_content/ComponentApp",
+      "Pattern": "**.razor.js"
+    },
     {
       "Name": "ComponentApp\\wwwroot",
       "ContentRoot": "${ProjectRoot}\\wwwroot\\",

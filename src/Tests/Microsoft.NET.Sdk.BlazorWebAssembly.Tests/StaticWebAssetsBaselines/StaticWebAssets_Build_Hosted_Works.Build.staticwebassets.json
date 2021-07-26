@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "BWkrcG/r6KSiYL6T4pV61wtbjNyPJZAUV0Cs0GaVJSA=",
+  "Hash": "CKV87gdv3U/KENR1G0H7UGNdYIBUHyHN4wz5khocpl4=",
   "Source": "blazorhosted",
   "BasePath": "_content/blazorhosted",
   "Mode": "Default",
@@ -14,7 +14,7 @@
       "PublishTarget": "",
       "AdditionalPublishProperties": ";",
       "AdditionalPublishPropertiesToRemove": ";WebPublishProfileFile",
-      "Hash": "VJKHBp8fH6Yxe/qYQkGKpnUqh5p/nTfqCxkSqQISuYk="
+      "Hash": "6ZBBdecOv3vdXMpKVlO3aUr4QzMUDGH1gdahp3wLdJ0="
     },
     {
       "Identity": "${ProjectRoot}\\blazorwasm\\obj\\Debug\\net6.0\\StaticWebAssets.publish.json",
@@ -34,7 +34,7 @@
       "PublishTarget": "",
       "AdditionalPublishProperties": ";",
       "AdditionalPublishPropertiesToRemove": ";WebPublishProfileFile",
-      "Hash": "pJpaxjmCd9XQZQAtkBELpZEWCsUfS9IMlEuzdelbmgI="
+      "Hash": "58mbwRU9RB746utyFb3Oz3joyCOXbnRhSlZMDkRmMxU="
     },
     {
       "Identity": "${ProjectRoot}\\razorclasslibrary\\obj\\Debug\\net6.0\\StaticWebAssets.publish.json",
@@ -53,6 +53,18 @@
       "ContentRoot": "${ProjectRoot}\\razorclasslibrary\\wwwroot\\",
       "BasePath": "_content/RazorClassLibrary",
       "Pattern": "**"
+    },
+    {
+      "Name": "blazorwasm\\BlazorPages",
+      "ContentRoot": "${ProjectRoot}\\blazorwasm\\Pages\\",
+      "BasePath": "/",
+      "Pattern": "**.razor.js"
+    },
+    {
+      "Name": "blazorwasm\\MvcPages",
+      "ContentRoot": "${ProjectRoot}\\blazorwasm\\Pages\\",
+      "BasePath": "/",
+      "Pattern": "**.cshtml.js"
     },
     {
       "Name": "blazorwasm\\wwwroot",

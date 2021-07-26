@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "kj4myDP300Ckue1HEItXYNYIK2jxU6\u002Bgoc9kdOoeHZY=",
+  "Hash": "35qjTqqgMiyvCjilJZa2Ou6/9JTFq43ceN1AZuf94YY=",
   "Source": "AppWithPackageAndP2PReference",
   "BasePath": "_content/AppWithPackageAndP2PReference",
   "Mode": "Default",
@@ -14,7 +14,7 @@
       "PublishTarget": "",
       "AdditionalPublishProperties": ";",
       "AdditionalPublishPropertiesToRemove": ";WebPublishProfileFile",
-      "Hash": "gpXNZGnQYSWbN87KCDlwytfTBSvUxiWki9lw83Zr3fw="
+      "Hash": "8\u002BWQKxkg07my2swX1aL\u002Bdwe0WHxJw5o\u002BLbSV8P3TpFc="
     },
     {
       "Identity": "${ProjectRoot}\\AnotherClassLib\\obj\\Debug\\net6.0\\StaticWebAssets.publish.json",
@@ -34,7 +34,7 @@
       "PublishTarget": "",
       "AdditionalPublishProperties": ";",
       "AdditionalPublishPropertiesToRemove": ";WebPublishProfileFile",
-      "Hash": "vLjuHlKudLPv6IBEx7XwAwyZjiOOKEFMKXVyezmNM\u002Bs="
+      "Hash": "B8e\u002BGvvjl\u002BerHbYG0aABfdSwAZNKY1zWZD95jeLOr34="
     },
     {
       "Identity": "${ProjectRoot}\\ClassLibrary\\obj\\Debug\\net6.0\\StaticWebAssets.publish.json",
@@ -49,10 +49,28 @@
   ],
   "DiscoveryPatterns": [
     {
+      "Name": "AnotherClassLib\\MvcViews",
+      "ContentRoot": "${ProjectRoot}\\AnotherClassLib\\Views\\",
+      "BasePath": "_content/AnotherClassLib",
+      "Pattern": "**.cshtml.js"
+    },
+    {
       "Name": "AnotherClassLib\\wwwroot",
       "ContentRoot": "${ProjectRoot}\\AnotherClassLib\\wwwroot\\",
       "BasePath": "_content/AnotherClassLib",
       "Pattern": "**"
+    },
+    {
+      "Name": "ClassLibrary\\BlazorComponents",
+      "ContentRoot": "${ProjectRoot}\\ClassLibrary\\Components\\",
+      "BasePath": "_content/ClassLibrary",
+      "Pattern": "**.razor.js"
+    },
+    {
+      "Name": "ClassLibrary\\MvcViews",
+      "ContentRoot": "${ProjectRoot}\\ClassLibrary\\Views\\",
+      "BasePath": "_content/ClassLibrary",
+      "Pattern": "**.cshtml.js"
     },
     {
       "Name": "ClassLibrary\\wwwroot",

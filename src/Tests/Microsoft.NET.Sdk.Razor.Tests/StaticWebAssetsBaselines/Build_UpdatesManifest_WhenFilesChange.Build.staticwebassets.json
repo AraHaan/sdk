@@ -1,12 +1,19 @@
 {
   "Version": 1,
-  "Hash": "aiswDsj8wTIe9IOTdGarMogZoYp\u002BjlrSUzNoruAKyn0=",
+  "Hash": "VjrWIGFbXShN0CxhN/1BVCOvJTjGMinkr\u002BzFgAy3DDw=",
   "Source": "ComponentApp",
   "BasePath": "_content/ComponentApp",
   "Mode": "Default",
   "ManifestType": "Build",
   "RelatedManifests": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "ComponentApp\\BlazorComponents",
+      "ContentRoot": "${ProjectRoot}\\Components\\",
+      "BasePath": "_content/ComponentApp",
+      "Pattern": "**.razor.js"
+    }
+  ],
   "Assets": [
     {
       "Identity": "${ProjectRoot}\\obj\\Debug\\net6.0\\scopedcss\\bundle\\ComponentApp.styles.css",
