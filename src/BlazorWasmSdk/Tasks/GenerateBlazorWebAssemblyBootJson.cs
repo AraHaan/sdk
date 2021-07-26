@@ -160,8 +160,13 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly
                              assetTraitValue.StartsWith("extension:", StringComparison.OrdinalIgnoreCase))
                     {
                         Log.LogMessage("Candidate '{0}' is defined as an extension resource '{1}'.", resource.ItemSpec, assetTraitValue);
+                        var extensionName = assetTraitValue.Substring("extension:".Length);
                         resourceData.extensions ??= new();
-                        resourceList = resourceData.extensions;
+                        if(!resourceData.extensions.TryGetValue(extensionName, out resourceList))
+                        {
+                            resourceList = new();
+                            resourceData.extensions[extensionName] = resourceList;
+                        }
                     }
                     else
                     {

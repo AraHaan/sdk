@@ -97,7 +97,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly
         /// is up to the user.
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
-        public ResourceHashesByNameDictionary extensions { get; set; }
+        public Dictionary<string, ResourceHashesByNameDictionary> extensions { get; set; }
     }
 
     public enum ICUDataMode

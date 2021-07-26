@@ -395,7 +395,7 @@ Copyright (c) .NET Foundation. All rights reserved.
     </ItemGroup>
   </Target>
 
-  <Target Name="_ProcessPublishFilesForBlazor" DependsOnTargets="LoadStaticWebAssetsBuildManifest" AfterTargets="ILLink">
+  <Target Name="ProcessPublishFilesForBlazor" DependsOnTargets="LoadStaticWebAssetsBuildManifest" AfterTargets="ILLink">
     
     <PropertyGroup>
       <!-- Workaround for https://github.com/dotnet/sdk/issues/12114-->
@@ -523,7 +523,7 @@ Copyright (c) .NET Foundation. All rights reserved.
 
   <Target Name="_BlazorWasmNative"
       DependsOnTargets="_EnsureWasmRuntimeWorkload;_GatherWasmFilesToBuild;WasmBuildApp"
-      BeforeTargets="_ProcessPublishFilesForBlazor"
+      BeforeTargets="ProcessPublishFilesForBlazor"
       Condition="'$(UsingBrowserRuntimeWorkload)' == 'true'" />
 
   <Target Name="_EnsureWasmRuntimeWorkload" Condition="'$(UsingBlazorAOTWorkloadManifest)' != 'true'">
