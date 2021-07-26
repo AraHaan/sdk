@@ -65,6 +65,51 @@ namespace Microsoft.NET.Sdk.Razor.Tests
         {
             var testAsset = "RazorComponentApp";
             ProjectDirectory = CreateAspNetSdkTestAsset(testAsset);
+            var expectedPatterns = new StaticWebAssetsManifest.DiscoveryPattern[]
+            {
+                new ()
+                {
+                      Name = "ComponentApp\\BlazorComponents",
+                      ContentRoot = "${ProjectRoot}\\Components\\",
+                      BasePath = "_content/ComponentApp",
+                      Pattern = "**.razor.js"
+                },
+                new()
+                {
+                      Name = "ComponentApp\\BlazorPages",
+                      ContentRoot = "${ProjectRoot}\\Pages\\",
+                      BasePath = "_content/ComponentApp",
+                      Pattern = "**.razor.js"
+                },
+                new()
+                {
+                      Name = "ComponentApp\\BlazorShared",
+                      ContentRoot = "${ProjectRoot}\\Shared\\",
+                      BasePath = "_content/ComponentApp",
+                      Pattern = "**.razor.js"
+                },
+                new()
+                {
+                        Name = "ComponentApp\\MvcPages",
+                        ContentRoot = "${ProjectRoot}\\Pages\\",
+                        BasePath = "_content/ComponentApp",
+                        Pattern = "**.cshtml.js"
+                },
+                new()
+                {
+                        Name = "ComponentApp\\MvcShared",
+                        ContentRoot = "${ProjectRoot}\\Shared\\",
+                        BasePath = "_content/ComponentApp",
+                        Pattern = "**.cshtml.js"
+                },
+                new()
+                {
+                        Name = "ComponentApp\\MvcViews",
+                        ContentRoot = "${ProjectRoot}\\Views\\",
+                        BasePath = "_content/ComponentApp",
+                        Pattern = "**.cshtml.js"
+                }
+            };
 
             // Components
             CreateFile("", ProjectDirectory.TestRoot, "Pages", "Component.razor.js");
@@ -98,6 +143,9 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             AssertManifest(
                 buildManifest,
                 LoadPublishManifest());
+
+            buildManifest.Should().NotBeNull();
+            buildManifest.DiscoveryPatterns.Should().BeEquivalentTo(expectedPatterns);
 
             AssertBuildAssets(
                 StaticWebAssetsManifest.FromJsonBytes(File.ReadAllBytes(finalPath)),
