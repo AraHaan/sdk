@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "CKV87gdv3U/KENR1G0H7UGNdYIBUHyHN4wz5khocpl4=",
+  "Hash": "fou3Dy8LE8N3BbWMnZeEC5i4hWbBNAfVseXcWt0nQ/o=",
   "Source": "blazorhosted",
   "BasePath": "_content/blazorhosted",
   "Mode": "Default",
@@ -14,7 +14,7 @@
       "PublishTarget": "",
       "AdditionalPublishProperties": ";",
       "AdditionalPublishPropertiesToRemove": ";WebPublishProfileFile",
-      "Hash": "6ZBBdecOv3vdXMpKVlO3aUr4QzMUDGH1gdahp3wLdJ0="
+      "Hash": "aM58L0oMunovP4epsrTH4NQ7\u002BRODytmyScQVe8xdWqA="
     },
     {
       "Identity": "${ProjectRoot}\\blazorwasm\\obj\\Debug\\net6.0\\StaticWebAssets.publish.json",

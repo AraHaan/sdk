@@ -52,6 +52,37 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
         }
 
         [Fact]
+        public void JSModules_ManifestIncludesModuleTargetPaths()
+        {
+            // Arrange
+            var testAsset = "BlazorHosted";
+            ProjectDirectory = CreateAspNetSdkTestAsset(testAsset);
+            File.WriteAllText(Path.Combine(ProjectDirectory.TestRoot, "blazorwasm", "wwwroot", "blazorwasm.lib.module.js"), "console.log('Hello initializer')");
+            File.WriteAllText(Path.Combine(ProjectDirectory.TestRoot, "razorclasslibrary", "wwwroot", "razorclasslibrary.lib.module.js"), "console.log('Hello RCL initializer')");
+
+            var build = new BuildCommand(ProjectDirectory, "blazorhosted");
+            build.WithWorkingDirectory(ProjectDirectory.TestRoot);
+            var buildResult = build.Execute("/bl");
+            buildResult.Should().Pass();
+
+            var outputPath = build.GetOutputDirectory(DefaultTfm).ToString();
+            var intermediateOutputPath = build.GetIntermediateDirectory(DefaultTfm, "Debug").ToString();
+
+            var blazorBootJson = new FileInfo(Path.Combine(intermediateOutputPath.Replace("blazorhosted", "blazorwasm"), "blazor.boot.json"));
+            blazorBootJson.Should().Exist();
+            var contents = JsonSerializer.Deserialize<JsonDocument>(blazorBootJson.OpenRead());
+            contents.RootElement.TryGetProperty("resources", out var resources).Should().BeTrue();
+            resources.TryGetProperty("libraryInitializers", out var initializers).Should().BeTrue();
+            initializers.TryGetProperty("blazorwasm.lib.module.js", out _).Should().BeTrue();
+            initializers.TryGetProperty("_content/RazorClassLibrary/razorclasslibrary.lib.module.js", out var hash).Should().BeTrue();
+            
+            // Do some validation to ensure the hash is included
+            Convert.TryFromBase64String(hash.GetString().Substring("SHA256-".Length), new byte[256], out _).Should().BeTrue();
+
+            new FileInfo(Path.Combine(outputPath, "wwwroot", "blazorhosted.modules.json")).Should().NotExist();
+        }
+
+        [Fact]
         public void Publish_DoesNotGenerateManifestJson_IncludesJSModulesOnBlazorBootJsonManifest()
         {
             // Arrange
@@ -67,12 +98,13 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             var outputPath = publish.GetOutputDirectory(DefaultTfm).ToString();
             var intermediateOutputPath = publish.GetIntermediateDirectory(DefaultTfm, "Debug").ToString();
 
-            var blazorBootJson = new FileInfo(Path.Combine(intermediateOutputPath, "blazor.boot.json"));
+            var blazorBootJson = new FileInfo(Path.Combine(intermediateOutputPath, "blazor.publish.boot.json"));
             blazorBootJson.Should().Exist();
             var contents = JsonSerializer.Deserialize<JsonDocument>(blazorBootJson.OpenRead());
             contents.RootElement.TryGetProperty("resources", out var resources).Should().BeTrue();
             resources.TryGetProperty("libraryInitializers", out var initializers).Should().BeTrue();
-            initializers.TryGetProperty("blazorwasm-minimal.lib.module.js", out _).Should().BeTrue();
+            initializers.TryGetProperty("blazorwasm-minimal.lib.module.js", out var hash).Should().BeTrue();
+            Convert.TryFromBase64String(hash.GetString().Substring("SHA256-".Length), new byte[256], out _).Should().BeTrue();
 
             new FileInfo(Path.Combine(outputPath, "wwwroot", "blazorwasm-minimal.modules.json")).Should().NotExist();
 

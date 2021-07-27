@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "p/0qLC5sh8EZKZFQiTYxAx/3sTeXO0j78XqTRAu5MWQ=",
+  "Hash": "Bxb0vpoV0qzh53HskBtbEJLbTGKFNmSmrd0lo\u002Bpd8xI=",
   "Source": "blazorhosted",
   "BasePath": "_content/blazorhosted",
   "Mode": "Default",
@@ -14,7 +14,7 @@
       "PublishTarget": "",
       "AdditionalPublishProperties": ";",
       "AdditionalPublishPropertiesToRemove": ";WebPublishProfileFile",
-      "Hash": "ZNb3eBw8ZyvS7yqnyszDDXPndI3qFH8UrejtEVkkRuk="
+      "Hash": "VxWN\u002BKYN/H83tI66oFeDGuBrJRgiYmAtvWbtuqNZmTQ="
     },
     {
       "Identity": "${ProjectRoot}\\blazorwasm\\obj\\Debug\\net6.0\\StaticWebAssets.publish.json",
@@ -24,7 +24,7 @@
       "PublishTarget": "ComputeFilesToPublish",
       "AdditionalPublishProperties": ";BuildProjectReferences=false;ResolveAssemblyReferencesFindRelatedSatellites=true;_PublishingBlazorWasmProject=true;",
       "AdditionalPublishPropertiesToRemove": ";NoBuild;RuntimeIdentifier;WebPublishProfileFile",
-      "Hash": "LXksXFRaKwErH5CO49QfQVpqvDpuNPo6f/rZSeXOaZs="
+      "Hash": "xuP0ivj3T4oMbKEEhjnXqAZ1jo89GRWV5qOmnIqWDUw="
     },
     {
       "Identity": "${ProjectRoot}\\razorclasslibrary\\obj\\Debug\\net6.0\\StaticWebAssets.build.json",

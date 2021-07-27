@@ -155,6 +155,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly
                         Log.LogMessage("Candidate '{0}' is defined as a library initializer resource.", resource.ItemSpec);
                         resourceData.libraryInitializers ??= new();
                         resourceList = resourceData.libraryInitializers;
+                        AddResourceToList(resource, resourceList, resource.GetMetadata("TargetPath"));
+                        continue;
                     }
                     else if (string.Equals("BlazorWebAssemblyResource", assetTraitName, StringComparison.OrdinalIgnoreCase) &&
                              assetTraitValue.StartsWith("extension:", StringComparison.OrdinalIgnoreCase))
@@ -162,7 +164,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly
                         Log.LogMessage("Candidate '{0}' is defined as an extension resource '{1}'.", resource.ItemSpec, assetTraitValue);
                         var extensionName = assetTraitValue.Substring("extension:".Length);
                         resourceData.extensions ??= new();
-                        if(!resourceData.extensions.TryGetValue(extensionName, out resourceList))
+                        if (!resourceData.extensions.TryGetValue(extensionName, out resourceList))
                         {
                             resourceList = new();
                             resourceData.extensions[extensionName] = resourceList;
@@ -175,11 +177,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly
                         continue;
                     }
 
-                    if (!resourceList.ContainsKey(resourceName))
-                    {
-                        Log.LogMessage("Added resource '{0}' to the manifest.", resource.ItemSpec);
-                        resourceList.Add(resourceName, $"sha256-{resource.GetMetadata("FileHash")}");
-                    }
+                    AddResourceToList(resource, resourceList, resourceName);
                 }
 
                 if (remainingLazyLoadAssemblies.Count > 0)
@@ -218,6 +216,15 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly
 
             using var writer = JsonReaderWriterFactory.CreateJsonWriter(output, Encoding.UTF8, ownsStream: false, indent: true);
             serializer.WriteObject(writer, result);
+
+            void AddResourceToList(ITaskItem resource, ResourceHashesByNameDictionary resourceList, string resourceKey)
+            {
+                if (!resourceList.ContainsKey(resourceKey))
+                {
+                    Log.LogMessage("Added resource '{0}' to the manifest.", resource.ItemSpec);
+                    resourceList.Add(resourceKey, $"sha256-{resource.GetMetadata("FileHash")}");
+                }
+            }
         }
 
         private bool TryGetLazyLoadedAssembly(string fileName, out ITaskItem lazyLoadedAssembly)

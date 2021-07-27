@@ -92,6 +92,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
                         ("Extension", ".blz"),
                         ("FileHash", "my-custom-extensionhash"),
                         ("RelativePath", "my-custom-extension.blz"),
+                        ("TargetPath", "_framework/my-custom-extension.blz"),
                         ("AssetTraitName", "BlazorWebAssemblyResource"),
                         ("AssetTraitValue", "extension:custom-extension")),
                 }
