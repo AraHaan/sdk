@@ -397,6 +397,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 
         private string Templatize(StaticWebAssetsManifest manifest, string projectRoot, string restorePath)
         {
+            manifest.Hash = "[[hash]]";
             var assetsByIdentity = manifest.Assets.ToDictionary(a => a.Identity);
             foreach (var asset in manifest.Assets)
             {
@@ -439,6 +440,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             {
                 relatedManifest.Identity = relatedManifest.Identity.Replace(projectRoot, "${ProjectRoot}").Replace(Path.DirectorySeparatorChar, '\\');
                 relatedManifest.ProjectFile = relatedManifest.ProjectFile.Replace(projectRoot, "${ProjectRoot}").Replace(Path.DirectorySeparatorChar, '\\');
+                relatedManifest.Hash = !string.IsNullOrEmpty(relatedManifest.Hash) ? "[[hash]]" : relatedManifest.Hash;
             }
 
             // Sor everything now to ensure we produce stable baselines independent of the machine they were generated on.

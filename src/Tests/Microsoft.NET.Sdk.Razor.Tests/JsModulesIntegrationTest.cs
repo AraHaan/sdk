@@ -18,7 +18,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 {
     public class JsModulesIntegrationTest : AspNetSdkBaselineTest
     {
-        public JsModulesIntegrationTest(ITestOutputHelper log) : base(log, true)
+        public JsModulesIntegrationTest(ITestOutputHelper log) : base(log, GenerateBaselines)
         {
         }
 
