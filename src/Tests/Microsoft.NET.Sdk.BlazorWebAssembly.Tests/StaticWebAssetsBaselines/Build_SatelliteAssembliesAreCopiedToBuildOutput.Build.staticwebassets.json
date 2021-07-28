@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "xftNoC6jxd/IcLPEnpbosw\u002BqasAwFlgzc2CDg2kw0rw=",
+  "Hash": "[[hash]]",
   "Source": "blazorwasm",
   "BasePath": "/",
   "Mode": "Root",
@@ -14,7 +14,7 @@
       "PublishTarget": "",
       "AdditionalPublishProperties": ";",
       "AdditionalPublishPropertiesToRemove": ";WebPublishProfileFile",
-      "Hash": "/ZJz\u002Bv5N4/RqWO6Z74WJZfmlMKRkWWzZYNAMzXulubs="
+      "Hash": "[[hash]]"
     },
     {
       "Identity": "${ProjectRoot}\\classlibrarywithsatelliteassemblies\\obj\\Debug\\net6.0\\StaticWebAssets.publish.json",
@@ -34,7 +34,7 @@
       "PublishTarget": "",
       "AdditionalPublishProperties": ";",
       "AdditionalPublishPropertiesToRemove": ";WebPublishProfileFile",
-      "Hash": "8MaDOrdNFl4EXxgpV2SD7rI3qNudVPYVr1FiJwh8eyo="
+      "Hash": "[[hash]]"
     },
     {
       "Identity": "${ProjectRoot}\\razorclasslibrary\\obj\\Debug\\net6.0\\StaticWebAssets.publish.json",

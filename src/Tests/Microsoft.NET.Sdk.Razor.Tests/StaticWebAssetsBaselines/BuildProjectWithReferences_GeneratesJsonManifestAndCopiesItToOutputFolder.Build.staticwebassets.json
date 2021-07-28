@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "v1FWEY0v09FcyfMgS98BK/EOYvuSGgI49M6Uj5Q/obI=",
+  "Hash": "[[hash]]",
   "Source": "AppWithPackageAndP2PReference",
   "BasePath": "_content/AppWithPackageAndP2PReference",
   "Mode": "Default",
@@ -14,7 +14,7 @@
       "PublishTarget": "",
       "AdditionalPublishProperties": ";",
       "AdditionalPublishPropertiesToRemove": ";WebPublishProfileFile",
-      "Hash": "cH32FMJSmdLqARPUOIFJQaOaftuBCbq/c0g3QHDZdAQ="
+      "Hash": "[[hash]]"
     },
     {
       "Identity": "${ProjectRoot}\\AnotherClassLib\\obj\\Debug\\net6.0\\StaticWebAssets.publish.json",
@@ -34,7 +34,7 @@
       "PublishTarget": "",
       "AdditionalPublishProperties": ";",
       "AdditionalPublishPropertiesToRemove": ";WebPublishProfileFile",
-      "Hash": "ZLx6kJqqTyYBd7\u002B7dIKVsq7/TaXi3BYxX3VPzbn0Z1s="
+      "Hash": "[[hash]]"
     },
     {
       "Identity": "${ProjectRoot}\\ClassLibrary\\obj\\Debug\\net6.0\\StaticWebAssets.publish.json",

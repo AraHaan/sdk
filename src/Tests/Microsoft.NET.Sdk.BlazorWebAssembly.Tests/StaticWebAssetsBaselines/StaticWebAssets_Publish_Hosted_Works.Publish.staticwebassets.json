@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Bxb0vpoV0qzh53HskBtbEJLbTGKFNmSmrd0lo\u002Bpd8xI=",
+  "Hash": "[[hash]]",
   "Source": "blazorhosted",
   "BasePath": "_content/blazorhosted",
   "Mode": "Default",
@@ -14,7 +14,7 @@
       "PublishTarget": "",
       "AdditionalPublishProperties": ";",
       "AdditionalPublishPropertiesToRemove": ";WebPublishProfileFile",
-      "Hash": "VxWN\u002BKYN/H83tI66oFeDGuBrJRgiYmAtvWbtuqNZmTQ="
+      "Hash": "[[hash]]"
     },
     {
       "Identity": "${ProjectRoot}\\blazorwasm\\obj\\Debug\\net6.0\\StaticWebAssets.publish.json",
@@ -24,7 +24,7 @@
       "PublishTarget": "ComputeFilesToPublish",
       "AdditionalPublishProperties": ";BuildProjectReferences=false;ResolveAssemblyReferencesFindRelatedSatellites=true;_PublishingBlazorWasmProject=true;",
       "AdditionalPublishPropertiesToRemove": ";NoBuild;RuntimeIdentifier;WebPublishProfileFile",
-      "Hash": "xuP0ivj3T4oMbKEEhjnXqAZ1jo89GRWV5qOmnIqWDUw="
+      "Hash": "[[hash]]"
     },
     {
       "Identity": "${ProjectRoot}\\razorclasslibrary\\obj\\Debug\\net6.0\\StaticWebAssets.build.json",
@@ -34,7 +34,7 @@
       "PublishTarget": "",
       "AdditionalPublishProperties": ";",
       "AdditionalPublishPropertiesToRemove": ";WebPublishProfileFile",
-      "Hash": "rLL27ys70iVRV25/bvAMs70fhg66KvvfgHqcsZTl4M4="
+      "Hash": "[[hash]]"
     },
     {
       "Identity": "${ProjectRoot}\\razorclasslibrary\\obj\\Debug\\net6.0\\StaticWebAssets.publish.json",
@@ -44,7 +44,7 @@
       "PublishTarget": "ComputeReferencedStaticWebAssetsPublishManifest",
       "AdditionalPublishProperties": ";",
       "AdditionalPublishPropertiesToRemove": ";WebPublishProfileFile",
-      "Hash": "Bblb8PkmHY7iYQsueWUfZ1X\u002BswgTybtkHHFa3N9p4QM="
+      "Hash": "[[hash]]"
     }
   ],
   "DiscoveryPatterns": [],
