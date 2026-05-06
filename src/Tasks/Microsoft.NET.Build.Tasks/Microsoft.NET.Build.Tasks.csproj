@@ -64,20 +64,6 @@
     <PackageReference Include="System.IO.Hashing" />
   </ItemGroup>
 
-  <!--
-    On .NET Framework, override the Microsoft.Build.* references to the same version used for .NET Core
-    (MicrosoftBuildPackageVersion). The SDK tasks rely on IMultiThreadableTask, TaskEnvironment.Fallback, and
-    related types that only exist in MSBuild 18.6+. The minimumMSBuildVersion file enforces the matching
-    runtime requirement so the SDK is not loaded by older MSBuild that lacks these types.
-  -->
-  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
-    <PackageReference Update="Microsoft.Build" VersionOverride="$(MicrosoftBuildPackageVersion)" />
-    <PackageReference Update="Microsoft.Build.Framework" VersionOverride="$(MicrosoftBuildPackageVersion)" />
-    <PackageReference Update="Microsoft.Build.Utilities.Core" VersionOverride="$(MicrosoftBuildPackageVersion)" />
-    <!-- Brought in transitively by Microsoft.Build.Framework; override to avoid NU1109 downgrade. -->
-    <PackageReference Include="Microsoft.NET.StringTools" VersionOverride="$(MicrosoftBuildPackageVersion)" PrivateAssets="All" ExcludeAssets="Runtime" />
-  </ItemGroup>
-
   <ItemGroup>
     <!-- Don't reference MS.NET.Build.Extensions.Tasks, but make sure it builds before this project -->
     <ProjectReference Include="..\Microsoft.NET.Build.Extensions.Tasks\Microsoft.NET.Build.Extensions.Tasks.csproj" ReferenceOutputAssembly="false" />

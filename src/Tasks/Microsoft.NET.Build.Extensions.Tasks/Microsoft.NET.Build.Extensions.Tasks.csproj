@@ -49,18 +49,6 @@
     <PackageReference Include="NETStandard.Library" VersionOverride="$(NETStandardLibraryVersion)" ExcludeAssets="All" />
   </ItemGroup>
 
-  <!--
-    On .NET Framework, override the Microsoft.Build.* references to the same version used for .NET Core
-    (MicrosoftBuildPackageVersion). The SDK tasks rely on IMultiThreadableTask, TaskEnvironment.Fallback, and
-    related types that only exist in MSBuild 18.6+. See Microsoft.NET.Build.Tasks.csproj for the full rationale.
-  -->
-  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
-    <PackageReference Update="Microsoft.Build.Framework" VersionOverride="$(MicrosoftBuildPackageVersion)" />
-    <PackageReference Update="Microsoft.Build.Utilities.Core" VersionOverride="$(MicrosoftBuildPackageVersion)" />
-    <!-- Brought in transitively by Microsoft.Build.Framework; override to avoid NU1109 downgrade. -->
-    <PackageReference Include="Microsoft.NET.StringTools" VersionOverride="$(MicrosoftBuildPackageVersion)" PrivateAssets="All" ExcludeAssets="Runtime" />
-  </ItemGroup>
-
   <ItemGroup>
     <Compile Include="**\*.cs" />
     <Compile Include="..\Common\**\*.cs" LinkBase="Common" />
