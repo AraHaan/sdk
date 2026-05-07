@@ -43,8 +43,13 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             try
             {
                 Directory.SetCurrentDirectory(probeDir);
+                // Re-read the CWD so we compare against the path the OS gave us back -- on macOS
+                // /var/.../tef-probe-xxx is symlinked to /private/var/.../tef-probe-xxx and
+                // Directory.SetCurrentDirectory resolves through the symlink.
+                var liveCwd = Directory.GetCurrentDirectory();
+
                 AbsolutePath resolved = task.TaskEnvironment.GetAbsolutePath("relative.txt");
-                resolved.Value.Should().StartWith(probeDir,
+                resolved.Value.Should().StartWith(liveCwd,
                     "TaskEnvironment.Fallback uses the live process CWD for relative path resolution");
             }
             finally
