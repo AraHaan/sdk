@@ -224,7 +224,7 @@ global using System.Threading.Tasks;
         }
 
         [RequiresMSBuildVersionFact("17.0.0.32901")]
-        public void It_does_not_generate_global_usings_for_system_net_http_json_when_targeting_net10()
+        public void It_does_not_generate_global_usings_for_system_net_http_json_when_targeting_net10_0()
         {
             var tfm = "net10.0";
             var testProject = CreateTestProject(tfm);
