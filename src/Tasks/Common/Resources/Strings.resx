@@ -1034,5 +1034,9 @@ You may need to build the project on another operating system or architecture, o
     <value>Update to version {0}.</value>
     <comment>{Locked="{0}"}</comment>
   </data>
-  <!-- The latest message added is SdkVersionUpdateRecommendation_Info. Please update this value with each PR to catch parallel PRs both adding a new message -->
+  <data name="SdkFeatureBandDiscontinued" xml:space="preserve">
+    <value>NETSDK1240: The current .NET SDK ({0}) has no newer release in its feature band. Update to version {1}: https://dotnet.microsoft.com/download</value>
+    <comment>{StrBegins="NETSDK1240: "}{Locked="{0}"}{Locked="{1}"}</comment>
+  </data>
+  <!-- The latest message added is SdkFeatureBandDiscontinued. Please update this value with each PR to catch parallel PRs both adding a new message -->
 </root>

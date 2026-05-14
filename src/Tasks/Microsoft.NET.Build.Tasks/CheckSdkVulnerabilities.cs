@@ -10,9 +10,10 @@ namespace Microsoft.NET.Build.Tasks;
 
 /// <summary>
 /// MSBuild task that reads cached SDK vulnerability/EOL data and emits
-/// NETSDK1238 (vulnerabilities) and NETSDK1239 (EOL) warnings.
-/// The cache is populated by the CLI during restore (background, no blocking).
-/// This task only reads from disk — it never makes network calls.
+/// NETSDK1238 (vulnerabilities), NETSDK1239 (EOL), and NETSDK1240 (feature band
+/// discontinued) warnings. The cache is populated by the CLI during restore
+/// (background, no blocking). This task only reads from disk — it never makes
+/// network calls.
 /// </summary>
 public class CheckSdkVulnerabilities : TaskBase
 {
@@ -87,6 +88,14 @@ public class CheckSdkVulnerabilities : TaskBase
                     upgradeSuffix);
             }
         }
+
+        if (summary.FeatureBandDiscontinued && !string.IsNullOrEmpty(summary.LatestSdkVersion))
+        {
+            Log.LogWarning(
+                Strings.SdkFeatureBandDiscontinued,
+                SdkVersion,
+                summary.LatestSdkVersion);
+        }
     }
 
     // Local DTOs for deserializing the cached summary.
@@ -97,6 +106,7 @@ public class CheckSdkVulnerabilities : TaskBase
         public DateTime? EolDate { get; set; }
         public List<SdkCveSummary>? Cves { get; set; }
         public string? LatestSdkVersion { get; set; }
+        public bool FeatureBandDiscontinued { get; set; }
     }
 
     internal sealed class SdkCveSummary
